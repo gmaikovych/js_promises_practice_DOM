@@ -36,7 +36,7 @@ firstPromise
   .then((msg) => showNotification(msg))
   .catch((err) => showNotification(err.message, true));
 
-// --- Second Promise ---
+// --- Second Promise (never rejects) ---
 const secondPromise = new Promise((resolve) => {
   const handler = (e) => {
     if (e.button === 0 || e.button === 2) {
