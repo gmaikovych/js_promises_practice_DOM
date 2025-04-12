@@ -12,12 +12,14 @@ function showNotification(message, isError = false) {
 let leftClicked = false;
 let rightClicked = false;
 
-// First Promise
+// --- First Promise ---
 const firstPromise = new Promise((resolve, reject) => {
-  const leftClickHandler = () => {
-    leftClicked = true;
-    resolve('First promise was resolved');
-    document.removeEventListener('click', leftClickHandler);
+  const leftClickHandler = (e) => {
+    if (e.button === 0) {
+      leftClicked = true;
+      resolve('First promise was resolved');
+      document.removeEventListener('click', leftClickHandler);
+    }
   };
 
   document.addEventListener('click', leftClickHandler);
@@ -32,9 +34,9 @@ const firstPromise = new Promise((resolve, reject) => {
 
 firstPromise
   .then((msg) => showNotification(msg))
-  .catch((err) => showNotification(err, true));
+  .catch((err) => showNotification(err.message, true));
 
-// Second Promise
+// --- Second Promise ---
 const secondPromise = new Promise((resolve) => {
   const handler = (e) => {
     if (e.button === 0 || e.button === 2) {
@@ -54,9 +56,11 @@ const secondPromise = new Promise((resolve) => {
   document.addEventListener('mousedown', handler);
 });
 
-secondPromise.then((msg) => showNotification(msg));
+secondPromise
+  .then((msg) => showNotification(msg))
+  .catch((err) => showNotification(err.message, true));
 
-// Third Promise
+// --- Third Promise ---
 const thirdPromise = new Promise((resolve) => {
   const handler = (e) => {
     if (e.button === 0) {
@@ -76,4 +80,6 @@ const thirdPromise = new Promise((resolve) => {
   document.addEventListener('mousedown', handler);
 });
 
-thirdPromise.then((msg) => showNotification(msg));
+thirdPromise
+  .then((msg) => showNotification(msg))
+  .catch((err) => showNotification(err.message, true));
